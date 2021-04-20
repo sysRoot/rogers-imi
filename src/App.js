@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import questions from './questions'
+import "semantic-ui-css/semantic.min.css";
+import "./App.css";
+import { Route, Switch } from 'react-router-dom';
+import QuestionsPage from './Pages/QuestionsPage';
+import Home from './Pages/Home';
+import Final from './Pages/Final';
+import { BatteryContext } from './contexts'
 
 function App() {
+  const [questionSet, setAnswers] = React.useState(questions)	
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div className="App">
+    <BatteryContext.Provider value={{questionSet, setAnswers}} >
+    <Switch>
+      <Route path={`/`} exact>
+        <Home />
+      </Route>
+      <Route path={`/question/:id`} exact>
+        <QuestionsPage />
+      </Route>
+      <Route path={`/results`} exact>
+        <Final />
+      </Route>
+    </Switch>
+    </BatteryContext.Provider>
+  </div>
   );
 }
 
